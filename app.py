@@ -541,7 +541,7 @@ def show_todos():
     col1, col2 = st.columns([3, 1])
     with col1:
         st.markdown('<div class="app-header">', unsafe_allow_html=True)
-        st.markdown('<h1 class="app-title">✅ My Todos</h1>', unsafe_allow_html=True)
+        st.markdown('<h1 class="app-title">✅ My Todos edited</h1>', unsafe_allow_html=True)
         if st.session_state.user:
             st.markdown(f'<p class="app-subtitle">Welcome, {st.session_state.user["username"]}!</p>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
