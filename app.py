@@ -14,7 +14,12 @@ st.set_page_config(
 )
 
 # MongoDB Configuration
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://dany:dany123@cluster0.jugrkro.mongodb.net/test")
+# Try to get from Streamlit secrets first (for cloud deployment), then fall back to environment variable
+try:
+    MONGODB_URL = st.secrets["MONGODB_URL"]
+except:
+    MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://dany:dany123@cluster0.jugrkro.mongodb.net/test")
+
 client = MongoClient(MONGODB_URL)
 db = client.todoapp_streamlit
 
