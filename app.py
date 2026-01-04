@@ -4,6 +4,14 @@ import bcrypt
 from pymongo import MongoClient
 from bson import ObjectId
 import os
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Page config
 st.set_page_config(
@@ -325,10 +333,14 @@ def get_user_by_email(email):
 
 def create_user(username, email, password):
     """Create new user"""
+    logger.info(f"Signup attempt for username: {username}")
+    
     # Check if user exists
     if get_user_by_username(username):
+        logger.warning(f"Signup failed: Username '{username}' already exists")
         return False, "Username already exists"
     if get_user_by_email(email):
+        logger.warning(f"Signup failed: Email '{email}' already registered")
         return False, "Email already registered"
     
     # Create user
@@ -341,18 +353,26 @@ def create_user(username, email, password):
     
     try:
         result = db.users.insert_one(user_data)
+        logger.info(f"✅ User created successfully: {username} (ID: {result.inserted_id})")
         return True, str(result.inserted_id)
     except Exception as e:
+        logger.error(f"❌ Signup error for {username}: {str(e)}")
         return False, str(e)
 
 def authenticate_user(username, password):
     """Authenticate user"""
+    logger.info(f"Login attempt for username: {username}")
+    
     user = get_user_by_username(username)
     if not user:
+        logger.warning(f"Login failed: User '{username}' not found")
         return False, "Invalid username or password"
     
     if verify_password(password, user["password"]):
+        logger.info(f"✅ Login successful for user: {username}")
         return True, user
+    
+    logger.warning(f"Login failed: Invalid password for user '{username}'")
     return False, "Invalid username or password"
 
 def get_user_todos(user_id):
@@ -409,6 +429,7 @@ def login(username, password):
             "username": result["username"],
             "email": result["email"]
         }
+        logger.info(f"Session created for user: {username} (ID: {st.session_state.user_id})")
         return True, "Login successful!"
     return False, result
 
