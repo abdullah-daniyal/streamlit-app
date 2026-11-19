@@ -1,10 +1,11 @@
+import os
 """Test authentication functions"""
 import bcrypt
 from pymongo import MongoClient
 from datetime import datetime
 
 # Connect to MongoDB
-MONGODB_URL = "mongodb+srv://dany:dany123@cluster0.jugrkro.mongodb.net/test"
+MONGODB_URL = os.environ["MONGODB_URL"]
 client = MongoClient(MONGODB_URL)
 db = client.todoapp_streamlit
 

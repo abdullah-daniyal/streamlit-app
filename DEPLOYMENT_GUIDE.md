@@ -68,7 +68,7 @@ git push -u origin main
 2. In the "Secrets" section, paste:
 
 ```toml
-MONGODB_URL = "mongodb+srv://dany:dany123@cluster0.jugrkro.mongodb.net/test"
+MONGODB_URL = "mongodb+srv://<username>:<password>@<your-cluster>.mongodb.net/<db>"
 ```
 
 3. Click "Save"

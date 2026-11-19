@@ -26,7 +26,7 @@ st.set_page_config(
 try:
     MONGODB_URL = st.secrets["MONGODB_URL"]
 except:
-    MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://dany:dany123@cluster0.jugrkro.mongodb.net/test")
+    MONGODB_URL = os.getenv("MONGODB_URL")
 
 client = MongoClient(MONGODB_URL)
 db = client.todoapp_streamlit
